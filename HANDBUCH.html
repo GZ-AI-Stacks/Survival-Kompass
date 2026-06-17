@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧭 GZ Survival Kompass – Handbuch</title>
+<style>
+  :root{
+    --green:#00FFAA; --cyan:#00B4FF; --purple:#8C00FF; --pink:#FF0080;
+    --bg:#070b14; --panel:#0d1424; --panel2:#111a2e; --line:#1d2b46;
+    --text:#dbe7f5; --muted:#90a4c4; --accent:var(--green);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{max-width:100%;overflow-x:hidden;}
+  body{
+    font-family:system-ui,'Segoe UI','Roboto',sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,rgba(0,180,255,0.10),transparent 60%),var(--bg);
+    color:var(--text); line-height:1.6; padding:0 0 4rem;
+  }
+  a{color:var(--cyan);}
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:0.3rem;}
+
+  .skip-link{position:absolute;left:0.6rem;top:-3rem;z-index:50;
+    background:var(--green);color:#04210f;font-weight:800;
+    padding:0.6rem 1rem;border-radius:0.6rem;text-decoration:none;
+    transition:top 0.15s;}
+  .skip-link:focus{top:0.6rem;}
+
+  header.hb-top{
+    position:sticky;top:0;z-index:10;
+    display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;
+    padding:0.9rem 1.2rem; background:rgba(7,11,20,0.92);
+    border-bottom:1px solid var(--line);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  }
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  header.hb-top .brand{font-weight:800;font-size:1.15rem;letter-spacing:0.3px;
+    background:linear-gradient(90deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  header.hb-top .sub{color:var(--muted);font-size:0.85rem;}
+  header.hb-top .home{margin-left:auto;}
+  .btn{display:inline-block;text-decoration:none;cursor:pointer;
+    background:linear-gradient(90deg,rgba(0,255,170,0.18),rgba(0,180,255,0.18));
+    border:1px solid var(--line); color:var(--text);
+    padding:0.5rem 0.9rem;border-radius:0.7rem;font-weight:700;font-size:0.9rem;}
+  .btn:hover{border-color:var(--cyan);}
+
+  main{max-width:920px;margin:0 auto;padding:0 1.1rem;}
+  .hero{text-align:center;padding:2.4rem 1rem 1.4rem;}
+  .hero h1{font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.15;
+    background:linear-gradient(90deg,var(--green),var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p{color:var(--muted);margin-top:0.6rem;font-size:1.02rem;}
+
+  nav.toc{background:var(--panel);border:1px solid var(--line);border-radius:1rem;padding:1.1rem 1.2rem;margin:1.4rem 0;}
+  nav.toc h2{font-size:1rem;color:var(--green);margin-bottom:0.7rem;text-transform:uppercase;letter-spacing:1px;}
+  nav.toc ol{list-style:none;display:grid;grid-template-columns:1fr;gap:0.35rem;counter-reset:toc;}
+  @media(min-width:560px){nav.toc ol{grid-template-columns:1fr 1fr;}}
+  nav.toc li{counter-increment:toc;}
+  nav.toc a{display:block;text-decoration:none;color:var(--text);padding:0.4rem 0.6rem;border-radius:0.5rem;}
+  nav.toc a::before{content:counter(toc) ".";color:var(--cyan);font-weight:800;margin-right:0.5rem;}
+  nav.toc a:hover{background:var(--panel2);}
+
+  section.card{background:var(--panel);border:1px solid var(--line);border-radius:1rem;padding:1.4rem 1.3rem;margin:1.1rem 0;}
+  section.card h2{font-size:1.35rem;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;
+    border-left:4px solid var(--accent);padding-left:0.7rem;}
+  section.card h3{font-size:1.05rem;margin:1.1rem 0 0.4rem;color:var(--green);}
+  section.card p{margin:0.5rem 0;color:var(--text);}
+  section.card ul,section.card ol{margin:0.5rem 0 0.5rem 1.3rem;}
+  section.card li{margin:0.3rem 0;}
+  strong{color:#fff;}
+  code{background:var(--panel2);border:1px solid var(--line);border-radius:0.4rem;padding:0.1rem 0.45rem;font-family:'Consolas',monospace;color:var(--green);}
+
+  .callout{border-radius:0.8rem;padding:0.9rem 1rem;margin:0.9rem 0;border:1px solid var(--line);background:var(--panel2);display:flex;gap:0.7rem;align-items:flex-start;}
+  .callout .ic{font-size:1.3rem;flex:0 0 auto;}
+  .callout.warn{border-color:rgba(255,0,128,0.55);background:rgba(255,0,128,0.08);}
+  .callout.tip{border-color:rgba(0,255,170,0.45);background:rgba(0,255,170,0.07);}
+  .callout.info{border-color:rgba(0,180,255,0.45);background:rgba(0,180,255,0.07);}
+
+  .apps{display:grid;grid-template-columns:1fr;gap:0.8rem;margin-top:0.6rem;list-style:none;margin-left:0;padding:0;}
+  @media(min-width:620px){.apps{grid-template-columns:1fr 1fr;}}
+  .app{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--ac,var(--green));border-radius:0.8rem;padding:0.9rem 1rem;}
+  .app h3{display:flex;align-items:center;gap:0.55rem;font-weight:800;font-size:1.02rem;margin:0;color:var(--text);}
+  .app h3 .em{font-size:1.4rem;}
+  .app p{color:var(--muted);font-size:0.92rem;margin-top:0.4rem;}
+
+  dl.keys{display:grid;grid-template-columns:auto 1fr;gap:0.5rem 1rem;align-items:center;margin-top:0.6rem;}
+  dl.keys dt{justify-self:start;margin:0;}
+  dl.keys dd{margin:0;}
+  dl.keys kbd{background:var(--panel2);border:1px solid var(--line);border-bottom-width:3px;border-radius:0.45rem;padding:0.2rem 0.55rem;font-family:'Consolas',monospace;font-size:0.9rem;color:#fff;}
+
+  table{width:100%;border-collapse:collapse;margin-top:0.6rem;font-size:0.92rem;}
+  th,td{text-align:left;padding:0.55rem 0.6rem;border-bottom:1px solid var(--line);}
+  th{color:var(--cyan);}
+  td a{font-weight:700;white-space:nowrap;}
+
+  footer.hb-foot{max-width:920px;margin:2rem auto 0;padding:1.4rem 1.2rem;border-top:1px solid var(--line);color:var(--muted);font-size:0.88rem;text-align:center;}
+  footer.hb-foot nav{margin:0.5rem 0;}
+  footer.hb-foot a{margin:0 0.35rem;}
+  .totop{display:inline-block;margin-top:0.6rem;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="hb-top" role="banner">
+  <span class="brand">🧭 GZ Survival Kompass</span>
+  <span class="sub">Benutzerhandbuch</span>
+  <a class="btn home" href="index.html" aria-label="Zurück zur App">← Zur App</a>
+</header>
+
+<main id="top" role="main" aria-label="Handbuch-Inhalt">
+  <div class="hero">
+    <h1><span aria-hidden="true">🧭 </span>GZ Survival Kompass</h1>
+    <p>9 interaktive Überlebens-Apps in einer Datei · 100 % offline · keine Tracker · DSGVO-konform</p>
+  </div>
+
+  <nav class="toc" id="inhalt" aria-label="Inhaltsverzeichnis">
+    <h2>Inhalt</h2>
+    <ol>
+      <li><a href="#was">Was ist der GZ Survival Kompass?</a></li>
+      <li><a href="#start">Erster Start &amp; Freischaltung</a></li>
+      <li><a href="#install">Als App installieren (offline)</a></li>
+      <li><a href="#hub">Die Startseite (Hub)</a></li>
+      <li><a href="#apps">Die 9 Apps im Überblick</a></li>
+      <li><a href="#bedienung">Bedienung &amp; Funktionen</a></li>
+      <li><a href="#notruf">Notruf &amp; Sicherheit</a></li>
+      <li><a href="#datenschutz">Datenschutz</a></li>
+      <li><a href="#hilfe">Fehlerbehebung</a></li>
+      <li><a href="#kontakt">Kontakt &amp; Support</a></li>
+    </ol>
+  </nav>
+
+  <section class="card" id="was" style="--accent:var(--cyan)">
+    <h2>1 ·<span aria-hidden="true"> 🧭</span> Was ist der GZ Survival Kompass?</h2>
+    <p>Der <strong>GZ Survival Kompass</strong> ist eine komplette Überlebens-Wissensdatenbank als <strong>eine einzige HTML-Datei</strong>. Sie bündelt 9 interaktive Apps zu den wichtigsten Survival-Themen – von Feuer und Wasser über Erste Hilfe bis zu Heilpflanzen.</p>
+    <p>Die App läuft <strong>komplett offline</strong> in jedem modernen Browser (Windows, Mac, Android, iOS). Es werden <strong>keine Daten gesendet</strong>, keine Server kontaktiert und keine Cookies oder Tracker verwendet.</p>
+    <div class="callout tip"><span class="ic" aria-hidden="true">💡</span><div>Einmal geladen, funktioniert die App auch ohne Internet – ideal für den Notfall, unterwegs oder am Lagerplatz.</div></div>
+  </section>
+
+  <section class="card" id="start" style="--accent:var(--green)">
+    <h2>2 ·<span aria-hidden="true"> 🔓</span> Erster Start &amp; Freischaltung</h2>
+    <p>Beim ersten Öffnen wirst du nach deinem <strong>Freischaltcode</strong> gefragt. Diesen erhältst du beim Kauf über unsere Website.</p>
+    <ol>
+      <li>Datei <code>index.html</code> mit einem Doppelklick öffnen (oder auf dem Handy im Browser).</li>
+      <li>Freischaltcode in das Eingabefeld eingeben und auf <strong>„Freischalten"</strong> tippen.</li>
+      <li>Den <strong>Sicherheitshinweis</strong> lesen und mit <strong>„Verstanden — App starten"</strong> bestätigen.</li>
+      <li>Fertig – ab jetzt startet die App direkt ohne erneute Code-Eingabe.</li>
+    </ol>
+    <div class="callout info"><span class="ic" aria-hidden="true">ℹ️</span><div>Die Freischaltung wird <strong>nur lokal</strong> in deinem Browser gespeichert. Löschst du die Browser-Daten oder nutzt einen anderen Browser, musst du den Code erneut eingeben.</div></div>
+  </section>
+
+  <section class="card" id="install" style="--accent:var(--purple)">
+    <h2>3 ·<span aria-hidden="true"> 📲</span> Als App installieren (offline)</h2>
+    <p>Der Survival Kompass ist eine <strong>PWA</strong> (Progressive Web App) und lässt sich wie eine echte App installieren – dann startet sie aus dem Startmenü bzw. vom Homescreen, ohne Browser-Adressleiste.</p>
+    <h3>Windows / Desktop (Chrome &amp; Edge)</h3>
+    <p>Auf das Installations-Symbol in der Adressleiste klicken (oder Menü → „App installieren").</p>
+    <h3>Android (Chrome)</h3>
+    <p>Menü <strong>⋮</strong> → <strong>„App installieren"</strong> bzw. „Zum Startbildschirm hinzufügen".</p>
+    <h3>iPhone / iPad (Safari)</h3>
+    <p>Teilen-Symbol <strong>⬆️</strong> → <strong>„Zum Home-Bildschirm"</strong>.</p>
+    <div class="callout tip"><span class="ic" aria-hidden="true">💡</span><div>Nach der Installation ist die App dauerhaft offline verfügbar.</div></div>
+  </section>
+
+  <section class="card" id="hub" style="--accent:var(--cyan)">
+    <h2>4 ·<span aria-hidden="true"> 🏠</span> Die Startseite (Hub)</h2>
+    <p>Die Startseite zeigt alle 9 Apps als Kacheln. Oben findest du:</p>
+    <ul>
+      <li><strong>3-3-3-Regel:</strong> Die Notfall-Prioritäten – tippe einen Punkt an, um direkt zur passenden App zu springen.</li>
+      <li><strong>🆘 Notruf:</strong> Öffnet ein Notruf-Fenster mit den wichtigsten Nummern (112, 110, 116 117) und allen 9 regionalen Giftnotruf-Zentralen – jede direkt wählbar.</li>
+      <li><strong>Sicherheitshinweis:</strong> Wichtiger Haftungshinweis – die App ersetzt keinen Notruf und keine fachliche Beratung.</li>
+    </ul>
+    <h3>Einsteiger-Pfad (empfohlene Lernreihenfolge)</h3>
+    <p>Jede Kachel trägt oben rechts eine kleine Nummer (<strong>1–9</strong>). Sie zeigt die <strong>empfohlene Lernreihenfolge</strong> nach Überlebens-Priorität: <strong>1 = Erste Hilfe</strong>, dann Wasser, Shelter, Feuer, Essbare Wildnis, Heilpflanzen, Holzkohle, Kompost und zuletzt Pflanzen anbauen. Wer neu ist, arbeitet die Apps am besten in dieser Reihenfolge durch.</p>
+    <p>Tippe auf eine Kachel, um eine App zu öffnen. Mit <strong>„← Hub"</strong> oben links kommst du jederzeit zurück. Der <strong>🆘-Notruf-Button</strong> ist auch innerhalb jeder App in der oberen Leiste erreichbar.</p>
+  </section>
+
+  <section class="card" id="apps" style="--accent:var(--green)">
+    <h2>5 ·<span aria-hidden="true"> 🧰</span> Die 9 Apps im Überblick</h2>
+    <ul class="apps" role="list">
+      <li class="app" style="--ac:#00FFAA"><h3><span class="em" aria-hidden="true">🌱</span> Kompost · NPK</h3><p>Grün &amp; Braun richtig mischen, Nährstoffanalyse + Survival-Notfallkompost.</p></li>
+      <li class="app" style="--ac:#FF0080"><h3><span class="em" aria-hidden="true">🔥</span> Glut &amp; Flamme</h3><p>Feuerdreieck, Zunder–Anzündholz–Brennholz, Feuer-Builder mit Brenndauer.</p></li>
+      <li class="app" style="--ac:#00B4FF"><h3><span class="em" aria-hidden="true">🍓</span> Essbare Wildnis</h3><p>Wasser, Wildpflanzen &amp; Proteine. Notnahrung sicher sammeln und kombinieren.</p></li>
+      <li class="app" style="--ac:#8C00FF"><h3><span class="em" aria-hidden="true">🌽</span> Pflanzen anbauen</h3><p>Survival-Garten: Starkzehrer, Schwachzehrer, Mehrjährige + Ertrags-Prognose.</p></li>
+      <li class="app" style="--ac:#ffcf57"><h3><span class="em" aria-hidden="true">⛺</span> Shelter &amp; Schlafplatz</h3><p>Unterstand, Isolierung, Windschutz. Shelter-Builder mit Wärme-Index.</p></li>
+      <li class="app" style="--ac:#2b9fd6"><h3><span class="em" aria-hidden="true">💧</span> Wasseraufbereitung</h3><p>Sieden, filtern, destillieren. Behandlungsketten-Builder mit Sicherheits-Bewertung.</p></li>
+      <li class="app" style="--ac:#e23b3b"><h3><span class="em" aria-hidden="true">🚑</span> Erste Hilfe</h3><p>Notfall-Wegweiser, Herzdruck-Takt-Timer, Notruf-Buttons. Lebensrettung, Wunden, Brüche.</p></li>
+      <li class="app" style="--ac:#6b6b6b"><h3><span class="em" aria-hidden="true">🌑</span> Holzkohle herstellen</h3><p>Meiler bauen, Wasser filtern, Aktivkohle, Biokohle. Schritt-Anleitung + Holz-Bedarfsrechner.</p></li>
+      <li class="app" style="--ac:#3a9d5d"><h3><span class="em" aria-hidden="true">🌿</span> Heilpflanzen</h3><p>Heilkräuter erkennen und anwenden, Anwendungsformen, tödliche Verwechslungen meiden.</p></li>
+    </ul>
+    <div class="callout warn"><span class="ic" aria-hidden="true">⚠️</span><div><strong>Heilpflanzen &amp; Essbare Wildnis:</strong> Sammle und verzehre <strong>niemals</strong> Pflanzen oder Pilze allein aufgrund der App. Es gibt tödliche Verwechslungen. Im Zweifel: stehen lassen und Fachleute fragen.</div></div>
+  </section>
+
+  <section class="card" id="bedienung" style="--accent:var(--purple)">
+    <h2>6 ·<span aria-hidden="true"> 🎛️</span> Bedienung &amp; Funktionen</h2>
+    <h3>Bilder vergrößern</h3>
+    <p>Tippe oder klicke auf ein Schema- oder Pflanzenbild, um es <strong>vergrößert</strong> anzuzeigen. Mit Klick auf das <strong>×</strong> oder die <kbd>Esc</kbd>-Taste schließt du die Großansicht wieder.</p>
+    <h3>Dark Mode</h3>
+    <p>Jede App hat oben einen <strong>🌙-Button</strong> für den Dunkel-/Hellmodus. Die Einstellung gilt für alle Apps.</p>
+    <h3>Zoom (Schriftgröße)</h3>
+    <p>Mit den Buttons <strong>+</strong> und <strong>–</strong> vergrößerst oder verkleinerst du den Inhalt – praktisch für kleine Displays oder schwaches Licht.</p>
+    <h3>Sprache</h3>
+    <p>Die App ist zweisprachig <strong>Deutsch / Englisch</strong>. Die Sprachumschaltung findest du in der Oberfläche; die Wahl wird gespeichert.</p>
+    <h3>Interaktive Rechner &amp; Builder</h3>
+    <p>Viele Apps enthalten <strong>interaktive Werkzeuge</strong>, z. B. den Feuer-Builder mit Brenndauer-Schätzung, den Wasser-Behandlungsketten-Builder mit Sicherheits-Bewertung oder den Herzdruck-Takt-Timer in der Ersten Hilfe.</p>
+    <h3>Wissens-Quiz (Selbsttest)</h3>
+    <p>Am Ende jeder App findest du ein kleines <strong>Wissens-Quiz</strong> mit drei Fragen zum jeweiligen Thema. Tippe eine Antwort an – du erhältst sofort <strong>richtig/falsch</strong> samt kurzer Erklärung. Unten siehst du deinen Punktestand; mit <strong>„Neu starten"</strong> kannst du das Quiz wiederholen. So prüfst du dein Wissen, bevor es im Ernstfall darauf ankommt.</p>
+    <div class="callout warn"><span class="ic" aria-hidden="true">⚠️</span><div>Das Quiz prüft <strong>nur Wissen</strong>. Es ist bewusst <strong>kein</strong> „essbar oder giftig?"-Bestimmungstest – Pflanzen und Pilze dürfen niemals allein anhand der App bestimmt oder verzehrt werden.</div></div>
+    <h3>Druckversion (mit oder ohne Fotos)</h3>
+    <p>Über den Link <strong>„🖨️ Druckversion (mit/ohne Fotos)"</strong> am Seitenende öffnest du ein druckbares Notfall-Handbuch. Dort kannst du zwischen der <strong>Vollversion mit allen Fotos</strong> und einer <strong>kompakten Version ohne Fotos</strong> (kleine Datei, ideal für E-Mail) wechseln.</p>
+    <dl class="keys" aria-label="Tastatur-Kürzel">
+      <dt><kbd>Esc</kbd></dt><dd>Bild-Großansicht bzw. Notruf-Fenster schließen / zurück zum Hub</dd>
+      <dt><kbd>Tab</kbd></dt><dd>Durch Bedienelemente springen (barrierefrei)</dd>
+      <dt><kbd>Enter</kbd></dt><dd>Ausgewähltes Element aktivieren</dd>
+    </dl>
+  </section>
+
+  <section class="card" id="notruf" style="--accent:var(--pink)">
+    <h2>7 ·<span aria-hidden="true"> 🚨</span> Notruf &amp; Sicherheit</h2>
+    <p>Der <strong>🆘-Notruf-Button</strong> ist überall erreichbar: auf der Startseite und in der oberen Leiste <strong>jeder App</strong>. Ein Tipp öffnet ein Notruf-Fenster mit allen wichtigen Nummern – tippe eine Nummer an, um sie auf dem Handy direkt anzurufen.</p>
+    <table>
+      <caption class="sr-only">Wichtige Notrufnummern und Zuständigkeiten</caption>
+      <thead><tr><th scope="col">Nummer</th><th scope="col">Zuständig</th></tr></thead>
+      <tbody>
+        <tr><td><a href="tel:112">112</a></td><td>Feuerwehr &amp; Rettungsdienst (EU-weit)</td></tr>
+        <tr><td><a href="tel:110">110</a></td><td>Polizei</td></tr>
+        <tr><td><a href="tel:116117">116 117</a></td><td>Ärztlicher Bereitschaftsdienst (nicht lebensbedrohlich)</td></tr>
+      </tbody>
+    </table>
+    <h3>Giftnotruf (regionale Zentralen, Deutschland)</h3>
+    <p>Die vollständige Liste aller 9 regionalen Giftnotruf-Zentralen findest du im <strong>🆘-Notruf-Fenster</strong> (Button oben in jeder App und auf der Startseite) – jede Zentrale direkt wählbar.</p>
+    <div class="callout warn"><span class="ic" aria-hidden="true">⚠️</span><div>Diese App dient der Information und Vorbereitung. Sie ersetzt <strong>keine</strong> ärztliche, fachliche oder behördliche Beratung und ist <strong>kein Ersatz für den Notruf</strong>. Die Nutzung erfolgt auf eigene Verantwortung.</div></div>
+  </section>
+
+  <section class="card" id="datenschutz" style="--accent:var(--green)">
+    <h2>8 ·<span aria-hidden="true"> 🔒</span> Datenschutz</h2>
+    <ul>
+      <li><strong>Keine Server:</strong> Die App läuft vollständig lokal in deinem Browser.</li>
+      <li><strong>Keine Tracker, keine Cookies:</strong> Es wird kein Nutzungsverhalten erfasst.</li>
+      <li><strong>Keine Datenübertragung:</strong> Eingaben verlassen dein Gerät nicht.</li>
+      <li><strong>Lokale Speicherung:</strong> Lediglich Freischaltung, Sprache und Theme werden im Browser-Speicher (localStorage) deines Geräts gemerkt.</li>
+    </ul>
+    <p>Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  </section>
+
+  <section class="card" id="hilfe" style="--accent:var(--cyan)">
+    <h2>9 ·<span aria-hidden="true"> 🛠️</span> Fehlerbehebung</h2>
+    <h3>Die App fragt erneut nach dem Code</h3>
+    <p>Das passiert, wenn die Browser-Daten gelöscht wurden oder ein anderer Browser/Gerät genutzt wird. Gib den Freischaltcode einfach erneut ein.</p>
+    <h3>Ein Bild oder eine Änderung wird nicht angezeigt</h3>
+    <p>Lade die Seite neu: <kbd>Strg</kbd> + <kbd>F5</kbd> (Windows) bzw. ziehe die Seite zum Aktualisieren nach unten (Handy).</p>
+    <h3>Notruf-Buttons wählen nicht</h3>
+    <p>Das direkte Wählen funktioniert auf dem <strong>Smartphone</strong>. Am Desktop ohne Telefon-Funktion wird stattdessen ggf. ein Anruf-Programm vorgeschlagen.</p>
+    <h3>App startet nicht offline</h3>
+    <p>Öffne die App einmal <strong>mit</strong> Internet bzw. installiere sie als PWA – danach ist sie offline verfügbar.</p>
+  </section>
+
+  <section class="card" id="kontakt" style="--accent:var(--purple)">
+    <h2>10 ·<span aria-hidden="true"> ✉️</span> Kontakt &amp; Support</h2>
+    <p><strong>Gerd Zimmermann GZ-AI.-Stacks</strong><br>
+    Görlitzer Straße 10<br>
+    91315 Höchstadt a.d. Aisch<br>
+    Deutschland</p>
+    <p>Telefon: <a href="tel:+4915117737336">0151 177 37 336</a><br>
+    E-Mail: <a href="mailto:gz.ai.stacks@gmail.com">gz.ai.stacks@gmail.com</a><br>
+    Web: <a href="https://www.gz-ai-stacks.de" target="_blank" rel="noopener">www.gz-ai-stacks.de</a></p>
+  </section>
+</main>
+
+<footer class="hb-foot" role="contentinfo">
+  <nav aria-label="Rechtliches">
+    <a href="impressum.html">Impressum</a> ·
+    <a href="datenschutz.html">Datenschutz</a> ·
+    <a href="agb.html">AGB</a> ·
+    <a href="widerruf.html">Widerruf</a>
+  </nav>
+  © Gerd Zimmermann GZ-AI.-Stacks · www.gz-ai-stacks.de<br>
+  <a class="totop" href="#top">↑ Nach oben</a>
+</footer>
+</body>
+</html>

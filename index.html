@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GZ Survival Kompass &mdash; 9 Apps fürs Überleben in der Wildnis</title>
+<meta name="description" content="GZ Survival Kompass: 9 interaktive Survival-Module offline auf jedem Gerät. Heilpflanzen, Feuer, Wasser, Shelter, Erste Hilfe. Einmal kaufen, für immer nutzen. 17,90 €.">
+<meta name="theme-color" content="#1a2418">
+<meta property="og:title" content="GZ Survival Kompass &mdash; 9 Apps fürs Überleben">
+<meta property="og:description" content="Offline-Survival-Wissen in 9 Modulen. Einmalkauf, kein Abo, läuft im Browser.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+
+<style>
+/* ============================
+   GZ Survival Kompass — Landingpage
+   Stil-Mix: Topo-Karte / Tagebuch / Briefing / Lagerfeuer
+   ============================ */
+
+:root {
+  --paper: #e8dfc7;
+  --paper-dark: #d4c9ac;
+  --ink: #1e2419;
+  --ink-soft: #3a4232;
+  --moss: #4a5a3a;
+  --moss-deep: #2d3a25;
+  --forest: #1a2418;
+  --ember: #d97639;
+  --ember-glow: #f0a060;
+  --blood: #8b3a2a;
+  --map-line: rgba(40, 50, 32, 0.18);
+  --tape: #c4b58a;
+  --shadow: 0 6px 24px rgba(20, 28, 16, 0.28);
+  --shadow-card: 0 4px 16px rgba(20, 28, 16, 0.22);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Georgia', 'Iowan Old Style', 'Source Serif Pro', serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 17px;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Topographische Linien als Hintergrund-SVG */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'><g fill='none' stroke='%23283220' stroke-width='0.7' opacity='0.18'><path d='M0 200 Q 200 150 400 200 T 800 220 T 1200 180'/><path d='M0 260 Q 200 210 400 260 T 800 280 T 1200 240'/><path d='M0 320 Q 200 270 400 320 T 800 340 T 1200 300'/><path d='M0 380 Q 200 330 400 380 T 800 400 T 1200 360'/><path d='M0 440 Q 200 390 400 440 T 800 460 T 1200 420'/><path d='M0 500 Q 200 450 400 500 T 800 520 T 1200 480'/><path d='M0 560 Q 200 510 400 560 T 800 580 T 1200 540'/><path d='M0 620 Q 200 570 400 620 T 800 640 T 1200 600'/><circle cx='250' cy='350' r='30'/><circle cx='250' cy='350' r='60'/><circle cx='250' cy='350' r='90'/><circle cx='900' cy='450' r='40'/><circle cx='900' cy='450' r='75'/></g></svg>");
+  background-repeat: repeat;
+  background-size: 1200px auto;
+  opacity: 0.55;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 1rem; top: 1rem;
+  background: var(--ink); color: var(--paper);
+  padding: 0.6rem 1rem; z-index: 999;
+}
+
+/* ====== HEADER mit Kompass-Rose ====== */
+.site-header {
+  padding: 2.2rem 1.5rem 1.4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.logo-rose {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 2px 4px rgba(20,28,16,0.3));
+}
+.brand-block h1 {
+  font-family: 'Georgia', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.brand-block .subtitle {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--moss-deep);
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+/* ====== HERO ====== */
+.hero {
+  max-width: 1100px;
+  margin: 1rem auto 3rem;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+.hero-text h2 {
+  font-family: 'Georgia', serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--forest);
+  margin-bottom: 1rem;
+}
+.hero-text h2 em {
+  font-style: italic;
+  color: var(--ember);
+}
+.hero-text .lead {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.5rem;
+  line-height: 1.55;
+}
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+/* ====== Buttons im Briefing-Stil ====== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.6rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(180deg, var(--ember-glow), var(--ember));
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(217, 118, 57, 0.4), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+.btn-primary:hover, .btn-primary:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(217, 118, 57, 0.55), inset 0 1px 0 rgba(255,255,255,0.4);
+  outline: none;
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--moss-deep);
+  border-color: var(--moss-deep);
+}
+.btn-secondary:hover, .btn-secondary:focus {
+  background: var(--moss-deep);
+  color: var(--paper);
+  outline: none;
+}
+
+/* ====== Hero-Visual (Foto) ====== */
+.hero-visual {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transform: rotate(-0.6deg);
+  border: 1px solid var(--paper-dark);
+  background: #1a2418;
+}
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 90px; height: 28px;
+  background: var(--tape);
+  opacity: 0.85;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+.hero-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* ====== Tagebuch-Card (Hero rechts) ====== */
+.journal-card {
+  background: #efe4c4;
+  background-image:
+    linear-gradient(180deg, rgba(40,50,32,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40,50,32,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  border: 1px solid var(--paper-dark);
+  border-radius: 4px;
+  padding: 1.8rem 1.6rem 1.6rem;
+  box-shadow: var(--shadow);
+  position: relative;
+  transform: rotate(-0.6deg);
+}
+.journal-card::before {
+  content: '';
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 80px; height: 28px;
+  background: var(--tape);
+  opacity: 0.85;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.journal-card h3 {
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
+  color: var(--forest);
+  margin-bottom: 0.8rem;
+  border-bottom: 1px dashed var(--ink-soft);
+  padding-bottom: 0.5rem;
+}
+.journal-card .module-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-top: 0.6rem;
+}
+.journal-card .module-list li::before {
+  content: '◆ ';
+  color: var(--ember);
+  font-weight: 700;
+}
+
+/* ====== Status-Briefing-Bar ====== */
+.briefing-bar {
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+}
+.briefing-inner {
+  background: var(--forest);
+  color: var(--paper);
+  border-radius: 4px;
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow);
+}
+.led {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--paper);
+}
+.led-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.led strong { color: var(--ember-glow); letter-spacing: 0.1em; }
+
+/* ====== Sektionen ====== */
+section {
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+.section-title {
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  color: var(--forest);
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px; height: 2px;
+  background: var(--ember);
+  margin: 0.7rem auto 0;
+}
+.section-sub {
+  text-align: center;
+  color: var(--ink-soft);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-style: italic;
+}
+
+/* ====== 9 Module — Tagebuch-Kacheln ====== */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.4rem;
+}
+.module-tile {
+  background: #f2e7c8;
+  border: 1px solid var(--paper-dark);
+  border-left: 5px solid var(--moss);
+  border-radius: 3px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.module-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(20, 28, 16, 0.3);
+}
+.module-tile.free { border-left-color: var(--ember); }
+.module-tile.free::after {
+  content: 'KOSTENLOS TESTEN';
+  position: absolute;
+  top: 0.7rem; right: 0.7rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.62rem;
+  background: var(--ember);
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  letter-spacing: 0.1em;
+  border-radius: 2px;
+}
+.module-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+.module-tile h4 {
+  font-family: 'Georgia', serif;
+  font-size: 1.15rem;
+  color: var(--forest);
+  margin-bottom: 0.4rem;
+}
+.module-tile p {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* ====== Vergleichs-Box (warum keine App-Store-Abo) ====== */
+.compare {
+  background: linear-gradient(135deg, #ebe1c6 0%, #ddd2b3 100%);
+  border-radius: 6px;
+  padding: 2rem 1.8rem;
+  border: 1px solid var(--paper-dark);
+  box-shadow: var(--shadow-card);
+  margin: 0 auto;
+}
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 700px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+.compare-col h4 {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+.compare-col.bad h4 { color: var(--blood); }
+.compare-col.good h4 { color: var(--moss-deep); }
+.compare-col ul {
+  list-style: none;
+  font-size: 0.95rem;
+}
+.compare-col li {
+  padding: 0.4rem 0;
+  border-bottom: 1px dotted rgba(40,50,32,0.2);
+}
+.compare-col.bad li::before { content: '✕ '; color: var(--blood); font-weight: 700; }
+.compare-col.good li::before { content: '✓ '; color: var(--moss-deep); font-weight: 700; }
+
+/* ====== Preis-Sektion ====== */
+.price-section {
+  background: var(--forest);
+  color: var(--paper);
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.price-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center top, rgba(240, 160, 96, 0.18), transparent 60%);
+  pointer-events: none;
+}
+.price-section > * { position: relative; }
+.price-section .price-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ember-glow);
+  margin-bottom: 0.5rem;
+}
+.price-tag {
+  font-family: 'Georgia', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.price-tag .cents { font-size: 2.3rem; vertical-align: super; }
+.price-note {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+.price-features {
+  list-style: none;
+  display: inline-block;
+  text-align: left;
+  margin: 1.5rem 0 2rem;
+  font-size: 1rem;
+}
+.price-features li {
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.price-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 0.35rem;
+  color: var(--ember-glow);
+  font-weight: 700;
+}
+.legal-fine {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+.legal-fine a { color: var(--ember-glow); }
+
+/* ====== Sicherheits-Hinweis-Box ====== */
+.safety-note {
+  background: #f3e8d0;
+  border-left: 4px solid var(--blood);
+  padding: 1.1rem 1.3rem;
+  margin: 2rem 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  border-radius: 0 3px 3px 0;
+}
+.safety-note strong { color: var(--blood); }
+
+/* ====== FAQ ====== */
+details {
+  background: #f0e5c5;
+  border: 1px solid var(--paper-dark);
+  border-radius: 3px;
+  padding: 0.9rem 1.2rem;
+  margin-bottom: 0.7rem;
+  box-shadow: var(--shadow-card);
+}
+details summary {
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-weight: 700;
+  color: var(--forest);
+  font-size: 1.02rem;
+  outline: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before {
+  content: '+ ';
+  color: var(--ember);
+  font-family: 'Courier New', monospace;
+}
+details[open] summary::before { content: '− '; }
+details p { margin-top: 0.6rem; font-size: 0.95rem; color: var(--ink-soft); }
+
+/* ====== Footer ====== */
+.site-footer {
+  background: var(--forest);
+  color: var(--paper-dark);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 0.88rem;
+  margin-top: 4rem;
+}
+.site-footer .links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.site-footer a {
+  color: var(--ember-glow);
+  text-decoration: none;
+}
+.site-footer a:hover { text-decoration: underline; }
+.site-footer .copy { opacity: 0.7; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media (prefers-contrast: more) {
+  body { background: #fff; color: #000; }
+  .journal-card, .module-tile, .compare { border-width: 2px; }
+}
+</style>
+</head>
+<body>
+
+<a href="#inhalt" class="skip-link">Zum Inhalt springen</a>
+
+<header class="site-header">
+  <svg class="logo-rose" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#2d3a25" stroke-width="2"/>
+    <circle cx="50" cy="50" r="32" fill="none" stroke="#2d3a25" stroke-width="0.8"/>
+    <g stroke="#2d3a25" stroke-width="1.5" stroke-linecap="round">
+      <line x1="50" y1="8" x2="50" y2="22"/>
+      <line x1="50" y1="78" x2="50" y2="92"/>
+      <line x1="8" y1="50" x2="22" y2="50"/>
+      <line x1="78" y1="50" x2="92" y2="50"/>
+    </g>
+    <polygon points="50,12 56,50 50,46 44,50" fill="#d97639"/>
+    <polygon points="50,88 56,50 50,54 44,50" fill="#2d3a25"/>
+    <text x="50" y="14" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#2d3a25" font-weight="700">N</text>
+    <text x="50" y="96" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#2d3a25" font-weight="700">S</text>
+    <text x="6" y="54" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#2d3a25" font-weight="700">W</text>
+    <text x="94" y="54" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#2d3a25" font-weight="700">O</text>
+  </svg>
+  <div class="brand-block">
+    <h1>GZ Survival Kompass</h1>
+    <div class="subtitle">9 Module · Offline · Einmal kaufen</div>
+  </div>
+</header>
+
+<main id="inhalt">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Wenn das Netz weg ist, <em>weisst du was zu tun ist.</em></h2>
+      <p class="lead">Neun interaktive Survival-Module direkt im Browser. Heilpflanzen, Feuer, Wasser, Shelter, Erste Hilfe &mdash; alles offline. Einmal kaufen, fuer immer nutzen. Keine Cloud, kein Konto, kein Abo.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="demo/">🧭 Demo starten &mdash; gratis</a>
+        <a class="btn btn-secondary" href="#preis">Vollversion 17,90 €</a>
+      </div>
+    </div>
+    <aside class="hero-visual" aria-label="GZ Survival Kompass im Einsatz">
+      <img src="img/survival-hero.jpg" alt="GZ Survival Kompass auf einem Smartphone vor einem Wald-Shelter mit Kompass, Messer und Kraeuterbuendel" loading="lazy" />
+    </aside>
+  </section>
+
+  <!-- BRIEFING-BAR -->
+  <div class="briefing-bar">
+    <div class="briefing-inner">
+      <span class="led"><span class="led-dot" aria-hidden="true"></span>STATUS: <strong>EINSATZBEREIT</strong></span>
+      <span class="led">// 100% OFFLINE</span>
+      <span class="led">// KEIN TRACKING</span>
+      <span class="led">// KEIN ABO</span>
+      <span class="led">// EINMALKAUF</span>
+    </div>
+  </div>
+
+  <!-- 9 MODULE -->
+  <section id="module">
+    <h3 class="section-title">9 Module fuer die Wildnis</h3>
+    <p class="section-sub">Jedes Modul ist eigenstaendig nutzbar. Klick rein, lies, mach. Kein Lehrbuch &mdash; eine Werkzeugkiste.</p>
+    <div class="modules-grid">
+
+      <article class="module-tile free">
+        <div class="module-icon">🌱</div>
+        <h4>Kompost &amp; NPK</h4>
+        <p>Welche Materialien fuer den Kompost? Naehrstoffe richtig mischen mit interaktivem Rechner.</p>
+      </article>
+
+      <article class="module-tile free">
+        <div class="module-icon">💧</div>
+        <h4>Wasseraufbereitung</h4>
+        <p>Vom Bach zum Trinkwasser. Filter bauen, abkochen, chemisch entkeimen &mdash; Schritt fuer Schritt.</p>
+      </article>
+
+      <article class="module-tile free">
+        <div class="module-icon">🌿</div>
+        <h4>Heilpflanzen</h4>
+        <p>Erkennen, sammeln, anwenden. Mit Sicherheits-Warnungen vor Verwechslungs-Gefahr.</p>
+      </article>
+
+      <article class="module-tile">
+        <div class="module-icon">🔥</div>
+        <h4>Feuer machen</h4>
+        <p>Von Zunder bis Lagerfeuer. Welche Hoelzer, welche Techniken &mdash; auch bei Naesse.</p>
+      </article>
+
+      <article class="module-tile">
+        <div class="module-icon">⛺</div>
+        <h4>Shelter-Bau</h4>
+        <p>Schutz vor Wind, Regen, Kaelte. Schnellbau bis Mehrtages-Shelter.</p>
+      </article>
+
+      <article class="module-tile">
+        <div class="module-icon">🍓</div>
+        <h4>Essbare Wildpflanzen</h4>
+        <p>Was du im Wald, am Wegrand und am Bach essen kannst &mdash; mit Bildern.</p>
+      </article>
+
+      <article class="module-tile">
+        <div class="module-icon">🌽</div>
+        <h4>Garten-Anbau</h4>
+        <p>Eigene Versorgung aufbauen. Welche Pflanzen, welcher Boden, welche Zeit.</p>
+      </article>
+
+      <article class="module-tile">
+        <div class="module-icon">⚕️</div>
+        <h4>Erste Hilfe</h4>
+        <p>Druckverband, CPR-Timer, Schock-Lagerung. Kein Buch &mdash; ein Notfall-Tool.</p>
+      </article>
+
+      <article class="module-tile">
+        <div class="module-icon">🪵</div>
+        <h4>Holzkohle herstellen</h4>
+        <p>Eigene Holzkohle fuer Filter, Feuer und Vorrat. Tonnen-Methode &amp; Erdgrube.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- VERGLEICH -->
+  <section id="vergleich">
+    <h3 class="section-title">Andere Apps vs. GZ Survival Kompass</h3>
+    <div class="compare">
+      <p style="text-align:center; color:var(--ink-soft); font-style:italic;">Survival-Apps gibt es viele. Die meisten haben einen Haken.</p>
+      <div class="compare-grid">
+        <div class="compare-col bad">
+          <h4>Typische Survival-Apps</h4>
+          <ul>
+            <li>Abo: 5&ndash;10 € pro Monat</li>
+            <li>Internet noetig &mdash; im Notfall nutzlos</li>
+            <li>Tracking, Werbung, Datenhandel</li>
+            <li>Konto-Zwang mit E-Mail</li>
+            <li>Funktionen plötzlich kostenpflichtig</li>
+          </ul>
+        </div>
+        <div class="compare-col good">
+          <h4>GZ Survival Kompass</h4>
+          <ul>
+            <li>17,90 € einmalig &mdash; fertig</li>
+            <li>100 % offline &mdash; auch ohne Empfang</li>
+            <li>Kein Tracking, keine Werbung, keine Cloud</li>
+            <li>Kein Konto, keine E-Mail, kein Login</li>
+            <li>Inhalt waechst &mdash; Updates 2 Jahre kostenlos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section>
+    <div class="safety-note" role="note">
+      <strong>⚠ Wichtiger Sicherheitshinweis:</strong> Der GZ Survival Kompass ist eine
+      <strong>Informations- und Vorbereitungshilfe</strong>. Er ersetzt nicht den Notruf 112,
+      keine aerztliche oder behoerdliche Beratung. Pflanzen und Pilze duerfen niemals nur
+      anhand dieser App bestimmt oder verzehrt werden. Im Zweifel: nicht essen, Fachperson
+      fragen, im Notfall 112 waehlen.
+    </div>
+  </section>
+
+  <!-- PREIS -->
+  <section id="preis">
+    <div class="price-section">
+      <div class="price-label">EINSATZAUSRUESTUNG</div>
+      <h3 class="section-title" style="color:var(--paper); margin-bottom:0.5rem;">Vollversion</h3>
+      <div class="price-tag">17,<span class="cents">90 €</span></div>
+      <p class="price-note">Einmaliger Endpreis &middot; gemaess § 19 UStG keine Umsatzsteuer</p>
+
+      <ul class="price-features">
+        <li>Alle 9 Module dauerhaft freigeschaltet</li>
+        <li>Bilder, Schemata, Sicherheits-Warnhinweise</li>
+        <li>Sprachen: Deutsch + Englisch</li>
+        <li>Offline auf jedem Geraet im Browser</li>
+        <li>Als App installierbar (PWA)</li>
+        <li>Updates &amp; Sicherheits-Patches 2 Jahre inklusive</li>
+        <li>Ausfuehrliches Handbuch (HTML)</li>
+      </ul>
+
+      <div>
+        <a class="btn btn-primary" href="https://www.checkout-ds24.com/product/SURVIVAL-ID/" style="font-size:1rem; padding:1.1rem 2.2rem;">🧭 Jetzt sichern &mdash; 17,90 €</a>
+      </div>
+
+      <p class="legal-fine">
+        Endpreis &mdash; § 19 UStG. Verkauf durch Gerd Zimmermann GZ-AI.-Stacks ueber Digistore24.
+        <a href="widerruf.html">Widerruf</a> · <a href="agb.html">AGB</a> · <a href="datenschutz.html">Datenschutz</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h3 class="section-title">Haeufige Fragen</h3>
+    <div style="max-width:780px; margin:0 auto;">
+      <details>
+        <summary>Brauche ich Internet um den Survival Kompass zu nutzen?</summary>
+        <p>Nein. Nach dem ersten Laden im Browser laeuft alles offline &mdash; auch ohne Empfang, gerade dort wo du ihn brauchst.</p>
+      </details>
+      <details>
+        <summary>Auf welchen Geraeten laeuft er?</summary>
+        <p>Auf allem mit modernem Browser: Windows, Mac, Linux, Android, iPhone, iPad. Du kannst ihn wie eine echte App auf dem Homescreen installieren.</p>
+      </details>
+      <details>
+        <summary>Gibt es ein Abo oder versteckte Kosten?</summary>
+        <p>Nein. 17,90 € einmalig &mdash; fuer immer deins. Updates und Sicherheits-Patches sind 2 Jahre lang inklusive.</p>
+      </details>
+      <details>
+        <summary>Muss ich ein Konto anlegen oder meine E-Mail angeben?</summary>
+        <p>Nein. Nach dem Kauf bekommst du einen Freischaltcode. Eingeben, fertig. Kein Konto, keine E-Mail-Pflicht in der App.</p>
+      </details>
+      <details>
+        <summary>Ist die App eine Bestimmungshilfe fuer Pflanzen und Pilze?</summary>
+        <p>Sie hilft beim Lernen und Vorbereiten, ist aber <strong>keine sichere Bestimmungsgrundlage</strong>. Pflanzen und Pilze niemals nur anhand der App verzehren. Im Zweifel: Fachperson fragen.</p>
+      </details>
+      <details>
+        <summary>Was passiert wenn ich die App nicht mag?</summary>
+        <p>Du hast 14 Tage Widerrufsrecht. Bei digitalen Inhalten beginnt das Recht mit Kaufabschluss; das Erlöschen vor Ablauf wird beim Kauf transparent angezeigt.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="links">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    <a href="widerruf.html">Widerruf</a>
+    <a href="HANDBUCH.html">Handbuch</a>
+  </div>
+  <p class="copy">© Gerd Zimmermann GZ-AI.-Stacks · <a href="https://www.gz-ai-stacks.de">www.gz-ai-stacks.de</a></p>
+</footer>
+
+</body>
+</html>
